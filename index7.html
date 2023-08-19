@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Reminder</title>
+<style>
+   body {
+    font-family: Arial, sans-serif;
+    background-image: url('im.jpg'); /* Add your image URL here */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  .task {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #0b0909;
+    border-radius: 5px;
+  }
+  button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  h1 {
+    text-align: center;
+    font-size: 3em;
+  }
+  .heal{
+    text-align: center;
+  }
+  p{
+    font-size: 2em;
+  }
+</style>
+</head>
+<body>
+<h1>hello! Miss Sunita Sharma</h1>
+<h2 class="heal">This is plan for Healthier and better life</h2>
+<div class="task">
+  <h2>Morning Routine</h2>
+  <p>Reminder: Test your blood pressure at 9:00 AM</p>
+  <div class="button-container">
+    <button id="bpButton">Done</button>
+  </div>
+</div>
+
+<div class="task">
+  <h2>Medicine Time</h2>
+  <p>Reminder: Take your medicine at 10:00 AM and 2:00 PM</p>
+  <div class="button-container">
+    <button id="medicineButton1">Done (10:00 AM)</button>
+    <button id="medicineButton2">Done (2:00 PM)</button>
+  </div>
+</div>
+<div class="task">
+  <h2>Evening Walk</h2>
+  <p>Reminder: Take a 30-minute walk from 6:30 PM to 7:30 PM</p>
+  <div class="button-container">
+    <button id="walkButton">Done</button>
+  </div>
+</div>
+
+
+<div class="task">
+  <h2>Medicine Reminder</h2>
+  <p>Reminder: Take medicine at 9:30 AM</p>
+  <div class="button-container">
+    <button id="medicineReminderButton">Done (9:30 AM)</button>
+  </div>
+</div>
+
+<div class="task">
+  <h2>Calorie Tracking</h2>
+  <p>Add your calories after each meal (Up to 4 times a day):</p>
+  <input type="number" id="caloriesInput" placeholder="Enter calories">
+  <div class="button-container">
+    <button id="addCaloriesButton">Add Calories</button>
+  </div>
+</div>
+
+<div class="task">
+  <h2>Calorie Intake Reminder</h2>
+  <p>Reminder:After Every 3rd meal on a day to can check, how much you need to consume or not in range of 1,600–2,200 calories per day</p>
+  <div class="button-container">
+    <button id="calorieReminderButton">Check Calorie Intake</button>
+  </div>
+</div>
+</body>
+
+
+<script>
+   const completedTasks = {
+    morningRoutine: false,
+    medicineMorning: false,
+    medicineAfternoon: false,
+    medicineReminder: false,
+    eveningWalk: false
+  };
+
+  const calorieData = {
+    breakfast: { count: 0, total: 0 },
+    lunch: { count: 0, total: 0 },
+    eveningSnack: { count: 0, total: 0 },
+    dinner: { count: 0, total: 0 }
+  };
+
+  const checkDailyCompletion = () => {
+    if (Object.values(completedTasks).every(task => task)) {
+      alert('Successfully completed all tasks for the day!');
+      resetTasks();
+      completedTasksThisWeek++;
+      checkWeeklyCompletion();
+    }
+  };
+
+  const resetTasks = () => {
+    for (const task in completedTasks) {
+      completedTasks[task] = false;
+    }
+  };
+
+  const bpButton = document.getElementById('bpButton');
+  bpButton.addEventListener('click', () => {
+    alert('You have successfully tested your blood pressure.');
+    completedTasks.morningRoutine = true;
+    checkDailyCompletion();
+  });
+
+  const medicineButton1 = document.getElementById('medicineButton1');
+  medicineButton1.addEventListener('click', () => {
+    alert('You have taken your medicine at 10:00 AM.');
+    completedTasks.medicineMorning = true;
+    checkDailyCompletion();
+  });
+
+  const medicineButton2 = document.getElementById('medicineButton2');
+  medicineButton2.addEventListener('click', () => {
+    alert('You have taken your medicine at 2:00 PM.');
+    completedTasks.medicineAfternoon = true;
+    checkDailyCompletion();
+  });
+
+  const medicineReminderButton = document.getElementById('medicineReminderButton');
+  medicineReminderButton.addEventListener('click', () => {
+    alert('You have taken your medicine reminder at 9:30 AM.');
+    completedTasks.medicineReminder = true;
+    checkDailyCompletion();
+  });
+
+  const caloriesInput = document.getElementById('caloriesInput');
+  const addCaloriesButton = document.getElementById('addCaloriesButton');
+
+  addCaloriesButton.addEventListener('click', () => {
+    const calories = parseInt(caloriesInput.value);
+    if (!isNaN(calories)) {
+      // ... (calorie tracking code)
+      calorieData.breakfast += calories;
+      caloriesInput.value = '';
+      alert('Calories added successfully.');
+      if (mealData.count === 4) {
+        alert('You have tracked calories 4 times for ' + selectedMeal + '. Count will be reset.');
+        mealData.count = 0;
+        mealData.total = 0;
+      }
+    } else {
+      alert('Please enter a valid number of calories.');
+    }
+  });
+
+  const calorieReminderButton = document.getElementById('calorieReminderButton');
+  calorieReminderButton.addEventListener('click', () => {
+    const totalCalories = calorieData.breakfast.total + calorieData.lunch.total + calorieData.eveningSnack.total + calorieData.dinner.total;
+    // ... (calorie intake reminder code)
+    if (totalCalories < 1600) {
+      alert('Reminder: Your calorie intake is less than 1600 calories. Consider eating more.');
+    } else if (totalCalories > 2200) {
+      alert('Reminder: Your calorie intake is more than 2200 calories. Consider moderating your intake.');
+    } else {
+      alert('Your calorie intake is within a healthy range.');
+    }
+  });
+
+  const walkButton = document.getElementById('walkButton');
+  walkButton.addEventListener('click', () => {
+    alert('You have completed your evening walk.');
+    completedTasks.eveningWalk = true;
+    checkDailyCompletion();
+  });
+
+  // Monthly appointment reminder
+  const currentDate = new Date();
+  if (currentDate.getDate() === 28) {
+    const appointmentReminder = document.createElement('div');
+    appointmentReminder.className = 'task';
+    appointmentReminder.innerHTML = `
+      <h2>Monthly Appointment</h2>
+      <p>Reminder: You have an appointment on the 29th of this month</p>
+      <button id="appointmentButton">Done</button>
+    `;
+
+    document.body.appendChild(appointmentReminder);
+
+    const appointmentButton = document.getElementById('appointmentButton');
+    appointmentButton.addEventListener('click', () => {
+      alert('You have acknowledged your appointment reminder.');
+      document.body.removeChild(appointmentReminder);
+    });
+  }
+
+  // Weekly task completion tracking
+  let completedTasksThisWeek = 0;
+  const maxTasksPerWeek = 4;
+
+  const checkWeeklyCompletion = () => {
+    if (completedTasksThisWeek === maxTasksPerWeek) {
+      alert('Successfully completed all tasks for the week!');
+      completedTasksThisWeek = 0;
+    }
+  };
+
+  setInterval(() => {
+    resetTasks();
+    completedTasksThisWeek = 0;
+    alert('A new week has started. Please complete your tasks.');
+  }, 7 * 24 * 60 * 60 * 1000); // Every 7 days (1 week)
+
+  setInterval(() => {
+    checkWeeklyCompletion();
+  }, 24 * 60 * 60 * 1000); // Every 24 hours
+</script>
+</body>
+</html>
+
+
+
+
+
